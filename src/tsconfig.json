@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        "inlineSourceMap": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "removeComments": true,
+        "strictNullChecks": true,
+        "target": "es6"
+    },
+    "include": [
+        "./**/*"
+    ]
+}
