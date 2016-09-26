@@ -21,7 +21,16 @@ export class Rule extends Lint.Rules.TypedRule {
 
 // The walker takes care of all the work.
 class ObjectLiteralSmartKeysWalker extends Lint.ProgramAwareRuleWalker {
-    public visitReturnStatement(node: ts.ReturnStatement) {
+
+    protected functionsStack = [];
+
+    visitFunctionDeclaration(node: ts.FunctionDeclaration) {
+        const tc = this.getTypeChecker();
+
+        super.visitFunctionDeclaration(node);
+    }
+
+    visitReturnStatement(node: ts.ReturnStatement) {
         const {expression} = node;
         if (expression) {
             const tc = this.getTypeChecker();
