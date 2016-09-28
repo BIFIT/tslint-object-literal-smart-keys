@@ -4,7 +4,7 @@
         "noImplicitAny": true,
         "removeComments": true,
         "strictNullChecks": true,
-        "target": "es6"
+        "target": "es2015"
     },
     "include": [
         "./**/*"

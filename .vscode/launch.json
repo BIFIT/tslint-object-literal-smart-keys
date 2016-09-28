@@ -23,7 +23,7 @@
             },
             "console": "internalConsole",
             "sourceMaps": true,
-            "outDir": null
+            "outDir": "${workspaceRoot}/rules"
         },
         {
             "name": "Attach",
