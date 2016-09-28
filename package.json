@@ -1,6 +1,6 @@
 {
   "name": "tslint-object-literal-smart-keys",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Rule for tslint",
   "main": "./lib/objectLiteralSmartKeys.js",
   "scripts": {
@@ -17,6 +17,10 @@
   "files": [
     "rules"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:arusakov/tslint-object-literal-smart-keys.git"
+  },
   "author": "Alexander Rusakov <a_s_rusakov@mail.ru> (https://github.com/arusakov)",
   "license": "MIT",
   "peerDependencies": {
