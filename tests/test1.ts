@@ -3,23 +3,22 @@ type X = {
     val: number;
 }
 
-const x = {
+// object-literal-smart-keys
+const x: X = {
     val: 1,
     type: ""
-}
+};
 
-export const fn = (): X => {
+export const fn = (x: X): X => {
+    // object-literal-smart-keys
     return {
-        val: 1,
-        type: "",
+        val: x.val,
+        type: x.type,
     };
 };
 
-function call(x: X) {
-    console.log(x);
-}
-
-call({
+// object-literal-smart-keys
+fn({
     val: 1,
     type: ""
-})
+});

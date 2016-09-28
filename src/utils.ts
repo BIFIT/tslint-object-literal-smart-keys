@@ -22,26 +22,11 @@ export function isFunctionLike(node: ts.Node): node is ts.FunctionLikeDeclaratio
     );
 }
 
-export function getClosestFunction(node: ts.Node) {
-    let parent: ts.Node | undefined;
-    while (true) {
-        parent = node.parent;
-        if (!parent) {
-            break;
-        }
-        if (isFunctionLike(parent)) {
-            break;
-        }
-        node = parent;
-    }
-    return parent as (ts.FunctionLikeDeclaration | undefined);
-}
-
-export function compareWithDef(props: Props, def: Props): string | null {
+export function compareWithType(props: Props, typeProps: Props): string | null {
     let lastIndex = -1;
 
     for (const prop of props) {
-        const ind = def.indexOf(prop);
+        const ind = typeProps.indexOf(prop);
         if (ind === -1) {
             continue;
         }
