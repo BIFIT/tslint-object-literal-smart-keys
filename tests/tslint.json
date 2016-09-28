@@ -1,6 +1,6 @@
 {
     "rulesDirectory": [
-      "../rules"
+        "../rules"
     ],
     "rules": {
         "object-literal-smart-keys": true

@@ -5,8 +5,8 @@
   "main": "./lib/objectLiteralSmartKeys.js",
   "scripts": {
     "check": "tslint --type-check --project ./tests",
-    "dev": "tsc --watch --sourceMap --project src",
-    "lint": "tslint --project ./src",
+    "dev": "tsc --watch --sourceMap --project ./src",
+    "lint": "tslint ./src/**/*.ts",
     "prepublish": "tsc --project src",
     "test": "npm run lint && npm run check"
   },

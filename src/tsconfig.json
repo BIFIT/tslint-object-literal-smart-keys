@@ -4,7 +4,7 @@
         "moduleResolution": "node",
         "removeComments": true,
         "strictNullChecks": true,
-        // "noImplicitAny": true,
+        "noImplicitAny": true,
         "target": "es6",
         "outDir": "../rules"
     },
