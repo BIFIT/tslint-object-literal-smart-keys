@@ -7,7 +7,7 @@
     "check": "tslint --type-check --force --project ./tests | node -e 'process.stdout.write(require(\"fs\").readFileSync(\"/dev/stdin\").toString())'",
     "dev": "tsc --watch --sourceMap --project ./src",
     "lint": "tslint ./src/**/*.ts",
-    "prepublish": "rm -rf rules/*.js.map && tsc --project src",
+    "prepublish": "rm -rf rules && tsc --project src",
     "test": "npm run lint && npm run check"
   },
   "keywords": [
