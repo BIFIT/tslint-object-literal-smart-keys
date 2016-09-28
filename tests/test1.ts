@@ -3,9 +3,14 @@ type X = {
     val: number;
 }
 
-function get(): X {
+(): X => {
     return {
-        type: 'x',
-        val: 10
-    };
+        type: '',
+        val: 1
+    }
 }
+
+// const x: X = {
+//     val: 1,
+//     type: ''
+// };
