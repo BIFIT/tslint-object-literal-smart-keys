@@ -9,8 +9,3 @@ type X = {
         val: 1
     }
 }
-
-// const x: X = {
-//     val: 1,
-//     type: ''
-// };

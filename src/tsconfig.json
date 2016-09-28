@@ -1,6 +1,5 @@
 {
     "compilerOptions": {
-        "inlineSourceMap": true,
         "module": "commonjs",
         "moduleResolution": "node",
         "removeComments": true,

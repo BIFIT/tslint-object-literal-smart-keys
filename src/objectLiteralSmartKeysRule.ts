@@ -1,5 +1,10 @@
-import * as ts from 'typescript';
-import * as Lint from 'tslint/lib/lint';
+import * as Lint from "tslint/lib/lint";
+import * as ts from "typescript";
+
+import {
+    getClosestFunction,
+    isObjectLiteral,
+} from "./utils";
 
 function compareWithDef(props, def): boolean {
     let lastIndex = -1;
@@ -20,13 +25,13 @@ function compareWithDef(props, def): boolean {
 
 export class Rule extends Lint.Rules.TypedRule {
     public static metadata: Lint.IRuleMetadata = {
-        ruleName: 'object-literal-smart-keys',
-        description: '',
-        descriptionDetails: '',
+        ruleName: "object-literal-smart-keys",
+        description: "Requires keys in object literals to be sorted like corresponding interface or type",
+        descriptionDetails: "",
         options: null,
         requiresTypeInfo: true,
-        type: 'functionality',
-    }
+        type: "maintainability",
+    };
 
     public applyWithProgram(sourceFile: ts.SourceFile, program: ts.Program): Lint.RuleFailure[] {
         const walker = new ObjectLiteralSmartKeysWalker(sourceFile, this.getOptions(), program);
@@ -34,60 +39,47 @@ export class Rule extends Lint.Rules.TypedRule {
     }
 }
 
-function isObjectLiteral(node: ts.Node): node is ts.ObjectLiteralExpression {
-    return node.kind === ts.SyntaxKind.ObjectLiteralExpression;
-}
-
 // The walker takes care of all the work.
 class ObjectLiteralSmartKeysWalker extends Lint.ProgramAwareRuleWalker {
 
-    protected functionsStack = [];
+    // visitVariableDeclaration(node: ts.VariableDeclaration) {
+    //     const tc = this.getTypeChecker();
 
-    visitVariableDeclaration(node: ts.VariableDeclaration) {
-        const tc = this.getTypeChecker();
+    //     super.visitVariableDeclaration(node);
+    // }
 
-        super.visitVariableDeclaration(node);
-    }
+    // visitFunctionDeclaration(node: ts.FunctionDeclaration) {
+    //     const tc = this.getTypeChecker();
 
-    visitFunctionDeclaration(node: ts.FunctionDeclaration) {
-        const tc = this.getTypeChecker();
+    //     super.visitFunctionDeclaration(node);
+    // }
 
-        super.visitFunctionDeclaration(node);
-    }
-
-    visitReturnStatement(node: ts.ReturnStatement): void {
+    visitReturnStatement(node: ts.ReturnStatement) {
         const {expression} = node;
         if (!expression) {
-            return super.visitReturnStatement(node);
+            super.visitReturnStatement(node);
+            return;
         }
         if (isObjectLiteral(expression)) {
-            const func = this.upToFunction(node);
-            if (func && func.type) {
-                const type = this.getTypeChecker().getTypeAtLocation(func.type);
-                const originProps = type.getProperties().map(p => p.name);
-                const props = expression.properties.map(p => (p.name as ts.Identifier).text);
+            const originProps = this.getPropsFromFunction(node);
+            const props = expression.properties.map(p => (p.name as ts.Identifier).text);
 
-                const result = compareWithDef(props, originProps);
-
-                console.log(result ? 'ok' : 'fail');
+            const result = compareWithDef(props, originProps);
+            if (!result) {
+                this.addFailure(
+                    this.createFailure(expression.getStart(), expression.getWidth(), "Fuck")
+                );
             }
         }
-        // call the base version of this visitor to actually parse this node
         super.visitReturnStatement(node);
     }
 
-    protected upToFunction(node: ts.ReturnStatement): ts.FunctionLikeDeclaration | null {
-        let parent: ts.FunctionLikeDeclaration | null = node.parent as ts.FunctionLikeDeclaration;
-        do {
-            parent = parent.parent as ts.FunctionLikeDeclaration;
-        } while (parent &&
-            !(
-                parent.kind === ts.SyntaxKind.ArrowFunction ||
-                parent.kind === ts.SyntaxKind.FunctionDeclaration ||
-                parent.kind === ts.SyntaxKind.FunctionExpression
-            )
-        );
-
-        return parent;
+    protected getPropsFromFunction(node: ts.ReturnStatement) {
+        const func = getClosestFunction(node);
+        if (func && func.type) {
+            const type = this.getTypeChecker().getTypeAtLocation(func.type);
+            return type.getProperties().map(p => p.name);
+        }
+        return [];
     }
 }

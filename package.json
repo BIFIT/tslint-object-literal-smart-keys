@@ -4,21 +4,27 @@
   "description": "Rule for tslint",
   "main": "./lib/objectLiteralSmartKeys.js",
   "scripts": {
-    "dev": "tsc --watch --project src",
-    "prepublish": "tsc --outDir ./lib --project src"
+    "check": "tslint --type-check --project ./tests",
+    "dev": "tsc --watch --sourceMap --project src",
+    "lint": "tslint --project ./src",
+    "prepublish": "tsc --project src",
+    "test": "npm run lint && npm run check"
   },
   "keywords": [
     "tslint",
     "rule"
   ],
   "files": [
-    "lib",
-    "src"
+    "rules"
   ],
   "author": "Alexander Rusakov <a_s_rusakov@mail.ru> (https://github.com/arusakov)",
   "license": "MIT",
-  "devDependencies": {
+  "peerDependencies": {
     "tslint": "^3.15.1",
     "typescript": "^2.0.3"
+  },
+  "devDependencies": {
+    "tslint": "3.15.1",
+    "typescript": "2.0.3"
   }
 }
