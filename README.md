@@ -2,7 +2,7 @@ object-literal-smart-keys
 =========================
 TSLint rule for ordering object literal keys like in corresponding type of interface.
 
-See [tests](https://github.com/arusakov/tslint-object-literal-smart-keys/blob/master/tests/test1.ts) for info about provided checkings. 
+See [tests](https://github.com/arusakov/tslint-object-literal-smart-keys/blob/master/tests/) for info about provided checkings. 
 
 Install
 -------
