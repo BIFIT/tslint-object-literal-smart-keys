@@ -5,7 +5,7 @@
         "removeComments": true,
         "strictNullChecks": true,
         "noImplicitAny": true,
-        "target": "es6",
+        "target": "es2015",
         "outDir": "../rules"
     },
     "include": [

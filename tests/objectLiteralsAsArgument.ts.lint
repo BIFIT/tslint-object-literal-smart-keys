@@ -1,0 +1,19 @@
+type A = {
+    x: any;
+    y: any;
+}
+
+declare function foo(bar: A): void;
+
+// with error
+foo({
+    y: null,
+    x: null,
+    ~~~~~~~ [The key 'x' is not sorted like in type 'A']
+});
+
+// without error
+foo({
+    x: null,
+    y: null,
+});

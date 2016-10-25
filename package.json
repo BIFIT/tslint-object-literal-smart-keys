@@ -4,9 +4,9 @@
   "description": "Rule for tslint",
   "main": "./lib/objectLiteralSmartKeys.js",
   "scripts": {
-    "check": "tslint --type-check --force --project ./tests | node -e 'process.stdout.write(require(\"fs\").readFileSync(\"/dev/stdin\").toString())'",
+    "check": "tslint --test ./tests",
     "dev": "tsc --watch --sourceMap --project ./src",
-    "lint": "tslint ./src/**/*.ts",
+    "lint": "tslint --project ./src/tsconfig.json --type-check",
     "prepublish": "rm -rf rules && tsc --project src",
     "test": "npm run lint && npm run check"
   },

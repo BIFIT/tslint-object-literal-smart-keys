@@ -1,0 +1,23 @@
+type X = {
+    a: any;
+    b: X | null;
+}
+
+// with error
+let x: X = {
+    a: null,
+    b: {
+        b: null,
+        a: null,
+        ~~~~~~~ [The key 'a' is not sorted like in type 'X']
+    },
+};
+
+// and without error
+x = {
+    a: null,
+    b: {
+        a: null,
+        b: null,
+    },
+};

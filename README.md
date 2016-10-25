@@ -16,6 +16,7 @@ Example tslint.json
         "./node_modules/tslint-object-literal-smart-keys/rules"
     ],
     "rules" {
+        "object-literal-sort-keys": false, // don't forget disable it!
         "object-literal-smart-keys": true
     }
 }
@@ -23,6 +24,4 @@ Example tslint.json
 
 Roadmap
 -------
-1. Tests
-2. Object literal nesting
-3. Complicated cases
+* Complicated cases

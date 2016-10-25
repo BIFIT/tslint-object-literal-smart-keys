@@ -1,0 +1,21 @@
+type Foo = {
+    x: any;
+    y: any;
+}
+
+// with error
+function bar(): Foo {
+    return {
+        y: null,
+        x: null,
+        ~~~~~~~ [The key 'x' is not sorted like in type 'Foo']
+    };
+}
+
+// withot error
+function barbar(): Foo {
+    return {
+        x: null,
+        y: null,
+    };
+}

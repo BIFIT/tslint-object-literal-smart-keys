@@ -2,8 +2,12 @@
     "extends": [
         "tslint:latest"
     ],
+    "rulesDirectory": [
+        "./rules"
+    ],
     "rules": {
         "object-literal-sort-keys": false,
+        "object-literal-smart-keys": true,
         "member-access": [
             false
         ],

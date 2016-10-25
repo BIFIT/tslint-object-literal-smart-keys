@@ -1,37 +1,29 @@
 import * as ts from "typescript";
 
-export type Props = string[];
+export type PropName = string;
+export type PropWithNode = { name: PropName; node: ts.Node };
 
-export function isObjectLiteral(node: ts.Node): node is ts.ObjectLiteralExpression {
-    return node.kind === ts.SyntaxKind.ObjectLiteralExpression;
+export function getPropsFromObjectLiteral(node: ts.ObjectLiteralExpression): PropWithNode[] {
+    return node.properties.map(p => ({
+        name: (p.name as ts.Identifier).text,
+        node: p,
+    }));
 }
 
-export function getPropsFromObjectLiteral(node: ts.ObjectLiteralExpression) {
-    return node.properties.map(p => (p.name as ts.Identifier).text);
-}
-
-export function getPropsFromType(type: ts.Type | undefined) {
+export function getPropsFromType(type: ts.Type | undefined): PropName[] {
     return type ? type.getProperties().map((p) => p.name) : [];
 }
 
-export function isFunctionLike(node: ts.Node): node is ts.FunctionLikeDeclaration {
-    return (
-        node.kind === ts.SyntaxKind.ArrowFunction ||
-        node.kind === ts.SyntaxKind.FunctionDeclaration ||
-        node.kind === ts.SyntaxKind.FunctionExpression
-    );
-}
-
-export function compareWithType(props: Props, typeProps: Props): string | null {
+export function compareWithType(props: PropWithNode[], typeProps: PropName[]): PropWithNode | null {
     let lastIndex = -1;
 
-    for (const prop of props) {
-        const ind = typeProps.indexOf(prop);
+    for (const p of props) {
+        const ind = typeProps.indexOf(p.name);
         if (ind === -1) {
             continue;
         }
         if (ind < lastIndex) {
-            return prop;
+            return p;
         }
         lastIndex = ind;
     }

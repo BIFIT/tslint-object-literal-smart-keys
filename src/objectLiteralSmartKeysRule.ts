@@ -2,6 +2,7 @@ import * as Lint from "tslint/lib/lint";
 import * as ts from "typescript";
 
 import {
+    PropWithNode,
     compareWithType,
     getPropsFromObjectLiteral,
     getPropsFromType,
@@ -10,15 +11,15 @@ import {
 export class Rule extends Lint.Rules.TypedRule {
     static metadata: Lint.IRuleMetadata = {
         ruleName: "object-literal-smart-keys",
-        description: "Requires keys in object literals to be sorted like corresponding interface or type",
+        type: "maintainability",
+        description: "Requires keys in object literals to be sorted like match interface or type",
         descriptionDetails: "",
         options: null,
         requiresTypeInfo: true,
-        type: "maintainability",
     };
 
     static FAILURE_STRING_FACTORY(name: string, typeName: string) {
-        return `The key '${name}' is not sorted like in type ${typeName}`;
+        return `The key '${name}' is not sorted like in type '${typeName}'`;
     }
 
     applyWithProgram(sourceFile: ts.SourceFile, program: ts.Program): Lint.RuleFailure[] {
@@ -36,15 +37,15 @@ class ObjectLiteralSmartKeysWalker extends Lint.ProgramAwareRuleWalker {
         const props = getPropsFromObjectLiteral(obj);
         const result = compareWithType(props, typeProps);
         if (result) {
-            this.fail(obj, result);
+            this.fail(result, this.getTypeChecker().typeToString(type));
         }
 
         super.visitObjectLiteralExpression(obj);
     }
 
-    protected fail(node: ts.Node, propName: string) {
+    protected fail(prop: PropWithNode, typeName: string) {
         this.addFailure(this.createFailure(
-            node.getStart(), node.getWidth(), Rule.FAILURE_STRING_FACTORY(propName, "Type")
+            prop.node.getStart(), prop.node.getWidth(), Rule.FAILURE_STRING_FACTORY(prop.name, typeName)
         ));
     }
 }
