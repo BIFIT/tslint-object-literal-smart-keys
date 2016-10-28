@@ -1,6 +1,6 @@
 {
   "name": "tslint-object-literal-smart-keys",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Rule for tslint",
   "main": "./lib/objectLiteralSmartKeys.js",
   "scripts": {
