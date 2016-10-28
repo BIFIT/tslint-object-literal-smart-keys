@@ -1,12 +1,25 @@
 import * as Lint from "tslint/lib/lint";
 import * as ts from "typescript";
 
-import {
-    PropWithNode,
-    compareWithType,
-    getPropsFromObjectLiteral,
-    getPropsFromType,
-} from "./utils";
+type PropName = string;
+type PropWithNode = { name: PropName; node: ts.Node };
+
+const compareWithType = (props: PropWithNode[], typeProps: PropName[]): PropWithNode | null => {
+    let lastIndex = -1;
+
+    for (const p of props) {
+        const ind = typeProps.indexOf(p.name);
+        if (ind === -1) {
+            continue;
+        }
+        if (ind < lastIndex) {
+            return p;
+        }
+        lastIndex = ind;
+    }
+
+    return null;
+};
 
 export class Rule extends Lint.Rules.TypedRule {
     static metadata: Lint.IRuleMetadata = {
@@ -31,10 +44,16 @@ export class Rule extends Lint.Rules.TypedRule {
 class ObjectLiteralSmartKeysWalker extends Lint.ProgramAwareRuleWalker {
 
     visitObjectLiteralExpression(obj: ts.ObjectLiteralExpression) {
-        const type = this.getTypeChecker().getContextualType(obj);
-        const typeProps = getPropsFromType(type);
+        const checker = this.getTypeChecker();
 
-        const props = getPropsFromObjectLiteral(obj);
+        const type = checker.getContextualType(obj);
+        const properties = checker.getPropertiesOfType(type);
+        const typeProps = properties.map(prop => prop.getName());
+
+        const props = obj.properties.map(prop => ({
+            name: prop.getText(),
+            node: prop,
+        }));
         const result = compareWithType(props, typeProps);
         if (result) {
             this.fail(result, this.getTypeChecker().typeToString(type));
