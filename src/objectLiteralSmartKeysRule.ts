@@ -1,6 +1,8 @@
 import * as Lint from "tslint/lib/lint";
 import * as ts from "typescript";
 
+debugger;
+
 type PropName = string;
 type PropWithNode = { name: PropName; node: ts.Node };
 
@@ -51,7 +53,7 @@ class ObjectLiteralSmartKeysWalker extends Lint.ProgramAwareRuleWalker {
         const typeProps = properties.map(prop => prop.getName());
 
         const props = obj.properties.map(prop => ({
-            name: prop.getText(),
+            name: prop.name ? prop.name.getText() : '',
             node: prop,
         }));
         const result = compareWithType(props, typeProps);
