@@ -1,5 +1,7 @@
 object-literal-smart-keys
 =========================
+
+[![Greenkeeper badge](https://badges.greenkeeper.io/arusakov/tslint-object-literal-smart-keys.svg)](https://greenkeeper.io/)
 TSLint rule for ordering object literal keys like in corresponding type of interface.
 
 See [tests](https://github.com/arusakov/tslint-object-literal-smart-keys/blob/master/tests/) for info about provided checkings. 
